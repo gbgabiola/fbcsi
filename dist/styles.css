@@ -5,3 +5,17 @@
 .section{padding-block:clamp(3rem,7vw,6rem)}h2{font-size:clamp(2rem,4.3vw,3.65rem);letter-spacing:-.036em}.section-intro>p:not(.eyebrow){color:var(--soft);max-width:39rem;margin:1rem 0 0}.beliefs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.15rem;margin-top:2rem}.beliefs article{display:flex;flex-direction:column;align-items:start;border:1px solid var(--line);padding:1.4rem;background:#fffcf6}.number,.reference{font-size:.78rem;color:var(--soft);font-weight:650}.number{margin:0 0 1rem;letter-spacing:.1em}h3{font-size:1.58rem}.beliefs article>p:not(.number){margin:1rem 0 0}.beliefs article .reference{margin-top:auto;padding-top:1rem}.practices{background:var(--cream)}.practice-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:2rem 4rem}details{border-top:1px solid #c9bfa8}details:last-of-type{border-bottom:1px solid #c9bfa8}summary{cursor:pointer;padding:.9rem 0;font-family:Georgia,serif;font-size:1.3rem}details p{margin:0 0 1rem}.reference{display:block}.sources{font-size:.85rem;color:var(--soft);margin-bottom:0}.visit{display:flex;justify-content:space-between;align-items:center;gap:1.25rem;flex-wrap:wrap;background:var(--green);color:var(--paper);padding:clamp(1.5rem,5vw,3.6rem);border-radius:5px}.visit p:not(.eyebrow){margin-bottom:0}.footer{border-top:1px solid var(--line);font-size:.9rem}
 @media(max-width:760px){.header{align-items:flex-start;flex-direction:column;gap:.8rem}nav{gap:1rem;flex-wrap:wrap}.hero-grid,.practice-grid,.beliefs{grid-template-columns:1fr}.hero-grid{min-height:0;gap:1.2rem;padding-block:2.8rem 1.5rem}.hero-art{width:min(67%,16rem)}.beliefs{gap:.8rem}.footer{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}}
+
+.bible-resources{margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--line)}
+.bible-resources p{color:var(--soft);margin:.6rem 0}
+.bible-resources ul{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;list-style:none;margin:.75rem 0 0;padding:0;font-size:.9rem}
+.visit address{font-style:normal;color:#efeadc;margin-top:1rem}
+.visit-links{display:grid;gap:.65rem}
+.schedule{margin-top:2rem}
+.schedule table{width:100%;border-collapse:collapse;margin-top:.9rem;text-align:left}
+.schedule th,.schedule td{padding:.7rem .5rem;border-bottom:1px solid var(--line);vertical-align:top}
+.schedule thead{background:var(--cream)}
+.schedule thead th{font-size:.85rem}
+.schedule tbody th{font-weight:650}
+.schedule time{white-space:nowrap}
+@media(max-width:480px){.schedule th,.schedule td{padding:.6rem .3rem;font-size:.83rem}}

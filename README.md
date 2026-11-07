@@ -6,5 +6,5 @@ Edit the page in `dist/index.html` and the theme in `dist/styles.css`. The artwo
 
 ## Content to confirm with the church
 
-- Full address, map pin, and service times. The visit section currently directs visitors to the supplied Facebook page.
+- Start time for the Friday outreach in San Jose. The visit section lists the confirmed address and regular schedule.
 - The congregation’s approved statement of faith and any affiliations it wants listed. The site uses a general overview based on the [BBSI statement of faith](https://bbsi.edu.ph/statement-of-faith) and [BBFI articles of faith](https://www.bbfi.org/articles-of-faith/). These are background sources.
