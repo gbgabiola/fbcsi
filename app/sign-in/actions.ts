@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseClient } from "../../lib/supabase/server";
 
-import { isSiteAdmin } from "../../lib/supabase/admin";
+import { getAdminAccess } from "../../lib/supabase/admin";
 
 export type SignInState = {
   email: string;
@@ -33,7 +33,7 @@ export async function signIn(state: SignInState, formData: FormData): Promise<Si
       return { email, step: "verify", message: "That code could not be verified. Try again or request a new code." };
     }
 
-    if (!(await isSiteAdmin(supabase))) {
+    if ((await getAdminAccess(supabase)) !== "granted") {
       await supabase.auth.signOut({ scope: "local" });
       return { email, step: "verify", message: "Administrator access could not be verified." };
     }
@@ -41,7 +41,10 @@ export async function signIn(state: SignInState, formData: FormData): Promise<Si
     redirect("/admin");
   }
 
-  await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+  const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+  if (error && error.code !== "user_not_found") {
+    console.warn("Administrator sign-in code request failed", { code: error.code, status: error.status });
+  }
   return {
     email,
     step: "verify",

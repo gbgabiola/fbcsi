@@ -1,9 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export async function isSiteAdmin(supabase: SupabaseClient) {
+export async function getAdminAccess(supabase: SupabaseClient) {
   const { data } = await supabase.auth.getClaims();
   const claims = data?.claims;
-  if (!claims?.sub || claims.is_anonymous) return false;
+  if (!claims?.sub) return "signed-out";
+  if (claims.is_anonymous) return "denied";
 
   const { data: assignment, error } = await supabase
     .from("site_admin")
@@ -11,5 +12,5 @@ export async function isSiteAdmin(supabase: SupabaseClient) {
     .eq("user_id", claims.sub)
     .maybeSingle();
 
-  return !error && assignment?.user_id === claims.sub;
+  return !error && assignment?.user_id === claims.sub ? "granted" : "denied";
 }
