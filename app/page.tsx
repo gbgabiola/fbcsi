@@ -12,7 +12,7 @@ export default function Home() {
             <div className="actions"><a className="button" href="#visit">Plan a visit <span aria-hidden="true">↗</span></a><a className="text-link" href="#beliefs">Explore Baptist beliefs <span aria-hidden="true">↓</span></a></div>
           </div>
           <div className="hero-art">
-            <Image src="/fbcsi-logo.jpg" alt="Official logo of Fundamental Baptist Church, San Isidro Village, San Fernando, Pampanga" width={2048} height={1176} sizes="(max-width: 760px) 352px, 400px" />
+            <Image src="/fbcsi-logo.jpg" alt="Official logo of Fundamental Baptist Church, San Isidro Village, San Fernando, Pampanga" width={2048} height={1176} loading="eager" fetchPriority="high" sizes="(max-width: 760px) 352px, 400px" />
           </div>
         </div>
       </section>

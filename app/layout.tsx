@@ -10,7 +10,6 @@ export const metadata: Metadata = {
     template: "%s | Fundamental Baptist Church",
   },
   description: "Get to know Fundamental Baptist Church in San Isidro, explore Baptist beliefs and practices, and connect with the church before your visit.",
-  icons: { icon: { url: "/fbcsi-logo.jpg", type: "image/jpeg" } },
 };
 
 function Brand() {
