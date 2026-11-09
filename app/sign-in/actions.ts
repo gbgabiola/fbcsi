@@ -24,8 +24,8 @@ export async function signIn(state: SignInState, formData: FormData): Promise<Si
 
   if (state.step === "verify" && formData.get("intent") !== "resend") {
     const token = String(formData.get("code") ?? "").trim();
-    if (!/^\d{6}$/.test(token)) {
-      return { email, step: "verify", message: "Enter the six-digit code from your email." };
+    if (!/^\d{6,10}$/.test(token)) {
+      return { email, step: "verify", message: "Enter the full code from your email (6 to 10 digits)." };
     }
 
     const { error } = await supabase.auth.verifyOtp({ email, token, type: "email" });

@@ -25,7 +25,7 @@ Open http://localhost:3000. The public homepage works without Supabase configura
    ```
 
 4. Copy `.env.example` to `.env.local` and set `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. Existing `NEXT_PUBLIC_SUPABASE_*` values are accepted as fallbacks. The app uses the signed-in session and row-level security to verify the administrator assignment.
-5. Include `{{ .Token }}` in the **Magic Link** email template so the administrator receives a six-digit code. Configure production SMTP and open `/sign-in` to test signing in and out.
+5. Include `{{ .Token }}` in the **Magic Link** email template so the administrator receives the full email code (6 to 10 digits, depending on the project settings). Configure production SMTP and open `/sign-in` to test signing in and out.
 
 The database permits a single administrator assignment. To transfer access, update that row from the SQL Editor to the new confirmed account's user ID. The application checks the assignment on each protected request.
 

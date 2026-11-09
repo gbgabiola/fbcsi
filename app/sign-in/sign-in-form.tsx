@@ -16,7 +16,7 @@ export function SignInForm() {
       {verifying && (
         <>
           <label htmlFor="code">Email code</label>
-          <input id="code" name="code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} />
+          <input id="code" name="code" inputMode="numeric" autoComplete="one-time-code" maxLength={10} />
         </>
       )}
       <p role="status">{state.message}</p>
