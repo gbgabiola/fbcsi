@@ -3,9 +3,11 @@
 import { useActionState } from "react";
 import { signIn, type SignInState } from "./actions";
 
+import { SignInChallenge } from "./sign-in-challenge";
+
 const initialState: SignInState = { email: "", step: "request", message: "" };
 
-export function SignInForm() {
+export function SignInForm({ siteKey }: { siteKey?: string }) {
   const [state, action, pending] = useActionState(signIn, initialState);
   const verifying = state.step === "verify";
 
@@ -19,6 +21,7 @@ export function SignInForm() {
           <input id="code" name="code" inputMode="numeric" autoComplete="one-time-code" maxLength={10} />
         </>
       )}
+      {siteKey && <SignInChallenge siteKey={siteKey} attempt={state} />}
       <p role="status">{state.message}</p>
       <div className="actions">
         <button className="button" type="submit" disabled={pending}>{verifying ? "Sign in" : "Email me a code"}</button>

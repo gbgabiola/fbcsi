@@ -22,13 +22,20 @@ export async function signIn(state: SignInState, formData: FormData): Promise<Si
     return { email, step: "request", message: "Administrator sign-in is currently unavailable." };
   }
 
+  const captchaToken = String(formData.get("cf-turnstile-response") ?? "");
+  if (process.env.TURNSTILE_SITE_KEY && (!captchaToken || captchaToken.length > 2048)) {
+    return { email, step: state.step, message: "Complete the security check and try again." };
+  }
+
+  const captchaOptions = process.env.TURNSTILE_SITE_KEY ? { captchaToken } : {};
+
   if (state.step === "verify" && formData.get("intent") !== "resend") {
     const token = String(formData.get("code") ?? "").trim();
     if (!/^\d{6,10}$/.test(token)) {
       return { email, step: "verify", message: "Enter the full code from your email (6 to 10 digits)." };
     }
 
-    const { error } = await supabase.auth.verifyOtp({ email, token, type: "email" });
+    const { error } = await supabase.auth.verifyOtp({ email, token, type: "email", options: captchaOptions });
     if (error) {
       return { email, step: "verify", message: "That code could not be verified. Try again or request a new code." };
     }
@@ -41,7 +48,7 @@ export async function signIn(state: SignInState, formData: FormData): Promise<Si
     redirect("/admin");
   }
 
-  const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false } });
+  const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, ...captchaOptions } });
   if (error && error.code !== "user_not_found") {
     console.warn("Administrator sign-in code request failed", { code: error.code, status: error.status });
   }

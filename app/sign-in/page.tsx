@@ -29,7 +29,7 @@ export default async function SignInPage({ searchParams }: {
         ) : (
           <>
             <p>Use the email address assigned to the church website administrator.</p>
-            {supabase ? <SignInForm /> : <p>Administrator sign-in is currently unavailable.</p>}
+            {supabase ? <SignInForm siteKey={process.env.TURNSTILE_SITE_KEY} /> : <p>Administrator sign-in is currently unavailable.</p>}
           </>
         )}
       </div>

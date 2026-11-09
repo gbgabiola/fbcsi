@@ -41,15 +41,27 @@ async function sessionCookie(url) {
   return Array.from(cookies, ([name, value]) => name + "=" + value).join("; ");
 }
 
-test("protects the admin route and clears a session after access is revoked", { timeout: 30000 }, async (t) => {
+test("protects admin access, enforces the configured challenge, and clears sessions during a lookup outage", { timeout: 30000 }, async (t) => {
   let assigned = false;
   let assignmentUnavailable = false;
   let assignmentRequests = 0;
   let logoutRequests = 0;
+  const otpChallenges = [];
   const fixturePaths = [];
   const auth = createServer((request, response) => {
     const pathname = new URL(request.url, "http://localhost").pathname;
     fixturePaths.push(pathname);
+    if (pathname === "/auth/v1/otp") {
+      let body = "";
+      request.setEncoding("utf8");
+      request.on("data", (chunk) => { body += chunk; });
+      request.on("end", () => {
+        otpChallenges.push(JSON.parse(body).gotrue_meta_security.captcha_token);
+        response.setHeader("Content-Type", "application/json");
+        response.end("{}");
+      });
+      return;
+    }
     if (pathname === "/auth/v1/logout") {
       logoutRequests++;
       response.writeHead(204).end();
@@ -85,6 +97,7 @@ test("protects the admin route and clears a session after access is revoked", { 
       ...process.env,
       SUPABASE_URL: authUrl,
       SUPABASE_PUBLISHABLE_KEY: "test-publishable-key",
+      TURNSTILE_SITE_KEY: "1x00000000000000000000AA",
     },
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -123,6 +136,27 @@ test("protects the admin route and clears a session after access is revoked", { 
   };
 
   await expectSignInRedirect();
+  const signIn = await get("/sign-in");
+  const formHtml = (await signIn.text()).match(/<form class="admin-form"[^>]*>(.*?)<\/form>/s)?.[1];
+  assert.ok(formHtml, "Expected the administrator sign-in form");
+  const form = new FormData();
+  for (const [, name, value = ""] of formHtml.matchAll(/<input type="hidden" name="([^"]+)"(?: value="([^"]*)")?\/>/g)) {
+    form.set(name, value.replaceAll("&quot;", '"').replaceAll("&amp;", "&"));
+  }
+  assert.ok([...form.keys()].some((key) => key.startsWith("$ACTION_REF_")));
+  form.set("email", "administrator@example.test");
+
+  const submit = () => fetch(origin + "/sign-in", {
+    method: "POST", headers: { origin }, body: form,
+  });
+  const missingChallenge = await submit();
+  assert.ok((await missingChallenge.text()).includes("Complete the security check and try again."));
+  assert.deepEqual(otpChallenges, []);
+
+  form.set("cf-turnstile-response", "test-challenge-token");
+  const checkedRequest = await submit();
+  assert.ok((await checkedRequest.text()).includes("receive a sign-in code"));
+  assert.deepEqual(otpChallenges, ["test-challenge-token"]);
   const cookie = await sessionCookie(authUrl);
   await expectSignInRedirect(cookie);
   const denied = await get("/sign-in", cookie);
@@ -138,13 +172,13 @@ test("protects the admin route and clears a session after access is revoked", { 
 
   assignmentUnavailable = true;
   const lookupsBeforeLogout = assignmentRequests;
-  const form = new FormData();
-  form.set(action, "");
+  const logoutForm = new FormData();
+  logoutForm.set(action, "");
   const logout = await fetch(origin + "/admin", {
     method: "POST",
     redirect: "manual",
     headers: { cookie, origin },
-    body: form,
+    body: logoutForm,
   });
   assert.equal(logout.status, 303);
   assert.equal(logout.headers.get("Location"), "/sign-in");

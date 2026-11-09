@@ -44,7 +44,18 @@ For a no-cost deployment, use a Render **Free Web Service** with the repository'
 
 The integration test starts the production build with a local Supabase HTTP fixture. It checks signed-out and non-admin access, successful admin access, and session clearing when the assignment lookup is unavailable. It does not send email.
 
-Before going live, rate-limit `POST /sign-in` per client IP at the hosting edge or reverse proxy. Keep Supabase Auth rate limits enabled as well. Check host logs for `Administrator sign-in code request failed` and verify a real code reaches the administrator, opens `/admin`, and signs out successfully.
+Keep Supabase Auth rate limits enabled. Where the host supports it, apply an additional per-client-IP limit to `POST /sign-in` at the edge. Check host logs for `Administrator sign-in code request failed` and verify a real code reaches the administrator, opens `/admin`, and signs out successfully.
+
+### Optional bot protection for administrator sign-in
+
+Supabase Auth rate limits apply regardless of hosting provider. To add a managed bot check on Render Free, configure Cloudflare Turnstile:
+
+1. Create a Turnstile widget in Cloudflare and authorize the deployed hostname `fbcsi.onrender.com`. Use a separate test widget for local development.
+2. Add the widget's public site key as `TURNSTILE_SITE_KEY` in Render and redeploy. Check that the widget loads on `/sign-in`.
+3. In Supabase Authentication, open **Bot and Abuse Protection**, enable CAPTCHA, choose **Turnstile**, and save the widget's secret in Supabase.
+4. Verify a fresh code request, code entry, and sign-out in production. If activation fails, disable CAPTCHA in Supabase first, then remove `TURNSTILE_SITE_KEY` from Render and redeploy.
+
+The public pages never load the widget. Supabase verifies the challenge tokens and keeps its rate limits enabled. Keep the Turnstile secret out of Render, the repository, and client code.
 
 ## Content to confirm with the church
 
