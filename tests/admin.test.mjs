@@ -153,4 +153,3 @@ test("protects the admin route and clears a session after access is revoked", { 
   assert.ok(logout.headers.getSetCookie().some((value) => /sb-.*auth-token=.*Max-Age=0/i.test(value)));
   await logout.body?.cancel();
 });
-
