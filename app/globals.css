@@ -6,9 +6,6 @@
 @media(max-width:760px){.header{align-items:flex-start;flex-direction:column;gap:.8rem}nav{gap:1rem;flex-wrap:wrap}.hero-grid,.practice-grid,.beliefs{grid-template-columns:1fr}.hero-grid{min-height:0;gap:1.2rem;padding-block:2.8rem 1.5rem}.hero-art{width:min(100%,22rem)}.beliefs{gap:.8rem}.footer{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}}
 
-.bible-resources{margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--line)}
-.bible-resources p{color:var(--soft);margin:.6rem 0}
-.bible-resources ul{display:flex;flex-wrap:wrap;gap:.3rem 1.5rem;list-style:none;margin:.75rem 0 0;padding:0;font-size:.9rem}
 .visit address{font-style:normal;color:#efeadc;margin-top:1rem}
 .visit-links{display:grid;gap:.65rem}
 .schedule{margin-top:2rem}
@@ -36,3 +33,19 @@ button:disabled { opacity: .65; cursor: wait; }
 .sunday-schedule strong { color: var(--gold); }
 .sunday-schedule ul { list-style: none; margin: .2rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
 .sunday-schedule time { white-space: nowrap; font-weight: 700; }
+
+.bible-guide { background: var(--cream); }
+.testament-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem; margin-top: 2rem; }
+.testament { border: 1px solid var(--line); background: var(--paper); padding: clamp(1.15rem, 3vw, 2rem); }
+.testament .eyebrow { color: var(--soft); letter-spacing: .09em; }
+.testament dl { margin: 1.3rem 0 0; }
+.testament dl div { border-top: 1px solid var(--line); padding-block: .65rem; }
+.testament dt { font-weight: 700; }
+.testament dd { margin: .15rem 0 0; color: var(--soft); }
+.reading-guide { margin-top: 2.5rem; }
+.reading-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem 1.5rem; padding-inline-start: 1.45rem; }
+.reading-path li { padding-inline-start: .2rem; }
+.reading-path h4 { margin: .25rem 0; }
+.reading-path p { margin: 0; color: var(--soft); }
+@media(max-width:760px) { .testament-grid { grid-template-columns: 1fr; } .reading-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width:480px) { .reading-path { grid-template-columns: 1fr; } }

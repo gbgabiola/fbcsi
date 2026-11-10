@@ -32,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Brand />
           <nav aria-label="Main navigation">
             <Link href="/#beliefs">Beliefs</Link>
-            <Link href="/#practices">Practices</Link>
+            <Link href="/#bible">Bible guide</Link>
             <Link className="nav-visit" href="/#visit">Plan a visit</Link>
           </nav>
         </header>
