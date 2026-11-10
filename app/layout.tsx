@@ -2,20 +2,22 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { church } from "../lib/church";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(church.url),
   title: {
-    default: "Fundamental Baptist Church | San Isidro",
+    default: church.title,
     template: "%s | Fundamental Baptist Church",
   },
-  description: "Get to know Fundamental Baptist Church in San Isidro, explore Baptist beliefs and practices, and connect with the church before your visit.",
+  description: church.description,
 };
 
 function Brand() {
   return (
     <Link className="brand" href="/">
-      <Image src="/fbcsi-logo.jpg" alt="" width={68} height={39} />
+      <Image src={church.logo} alt="" width={68} height={39} />
       <span>Fundamental Baptist Church<small>San Isidro</small></span>
     </Link>
   );
@@ -37,7 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {children}
         <footer className="footer wrap">
           <Brand />
-          <a href="https://www.facebook.com/fbcsi4Christ">Facebook <span aria-hidden="true">↗</span></a>
+          <a href={church.facebook}>Facebook <span aria-hidden="true">↗</span></a>
         </footer>
       </body>
     </html>

@@ -1,8 +1,45 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import { church } from "../lib/church";
+
+export const metadata: Metadata = {
+  description: church.description,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "en_PH",
+    title: church.title,
+    description: church.description,
+    siteName: church.name,
+    url: "/",
+    images: [{ url: church.logo, width: 2048, height: 1176, alt: "Official church logo" }],
+  },
+};
+
+const churchSchema = {
+  "@context": "https://schema.org",
+  "@type": "Church",
+  name: church.name,
+  url: new URL("/", church.url).href,
+  image: new URL(church.logo, church.url).href,
+  sameAs: [church.facebook],
+  hasMap: church.map,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: church.street,
+    addressLocality: church.locality,
+    addressRegion: church.region,
+    addressCountry: "PH",
+  },
+};
 
 export default function Home() {
   return (
     <main id="main">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(churchSchema).replace(/</g, "\\u003c") }}
+      />
       <section className="hero" aria-labelledby="welcome-title">
         <div className="wrap hero-grid">
           <div className="hero-copy">
@@ -12,7 +49,7 @@ export default function Home() {
             <div className="actions"><a className="button" href="#visit">Plan a visit <span aria-hidden="true">↗</span></a><a className="text-link" href="#beliefs">Explore Baptist beliefs <span aria-hidden="true">↓</span></a></div>
           </div>
           <div className="hero-art">
-            <Image src="/fbcsi-logo.jpg" alt="Official logo of Fundamental Baptist Church, San Isidro Village, San Fernando, Pampanga" width={2048} height={1176} loading="eager" fetchPriority="high" sizes="(max-width: 760px) 352px, 400px" />
+            <Image src={church.logo} alt="Official logo of Fundamental Baptist Church, San Isidro Village, San Fernando, Pampanga" width={2048} height={1176} loading="eager" fetchPriority="high" sizes="(max-width: 760px) 352px, 400px" />
           </div>
         </div>
       </section>
@@ -48,11 +85,11 @@ export default function Home() {
           <div>
             <p className="eyebrow"><span></span> 03 / Visit</p>
             <h2>Come worship with us</h2>
-            <address>3M35+RHW, Sampaguita Main Road<br />San Fernando, Pampanga, Philippines</address>
+            <address>{church.street}<br />{church.locality}, {church.region}, Philippines</address>
           </div>
           <div className="visit-links">
-            <a className="button" href="https://maps.app.goo.gl/7hfevm2YGM75h9829?g_st=ic">Get directions <span aria-hidden="true">↗</span></a>
-            <a href="https://www.facebook.com/fbcsi4Christ">Ask us on Facebook <span aria-hidden="true">↗</span></a>
+            <a className="button" href={church.map}>Get directions <span aria-hidden="true">↗</span></a>
+            <a href={church.facebook}>Ask us on Facebook <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <div className="schedule">
