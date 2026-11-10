@@ -31,3 +31,8 @@ button.button, .secondary-button { border: 1px solid transparent; cursor: pointe
 .secondary-button { background: transparent; color: inherit; border-color: var(--soft); border-radius: 4px; padding: .65rem .85rem; }
 button:disabled { opacity: .65; cursor: wait; }
 .sign-out { margin-top: 1.5rem; }
+
+.sunday-schedule { border-inline-start: 2px solid var(--gold); padding-inline-start: .9rem; }
+.sunday-schedule strong { color: var(--gold); }
+.sunday-schedule ul { list-style: none; margin: .2rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .25rem 1rem; }
+.sunday-schedule time { white-space: nowrap; font-weight: 700; }

@@ -11,7 +11,7 @@ npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. The public homepage works without Supabase configuration. Edit the church content and schedule in `app/page.tsx`. The official logo is `public/fbcsi-logo.jpg`. The 48px favicon in `app/icon.png` is derived from it.
+Open http://localhost:3000. The public homepage works without Supabase configuration. Edit the church content in `app/page.tsx` and the shared schedule in `lib/church.ts`. The official logo is `public/fbcsi-logo.jpg`. The 48px favicon in `app/icon.png` is derived from it.
 
 ## Configure the administrator
 

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { church } from "../lib/church";
+import { church, weeklySchedule } from "../lib/church";
 
 export const metadata: Metadata = {
   description: church.description,
@@ -34,6 +34,8 @@ const churchSchema = {
   },
 };
 
+const sundaySchedule = weeklySchedule.filter((gathering) => gathering.day === "Sunday" && gathering.start !== null);
+
 export default function Home() {
   return (
     <main id="main">
@@ -47,6 +49,16 @@ export default function Home() {
             <p className="eyebrow"><span></span> Welcome to church</p>
             <h1 id="welcome-title">Fundamental<br />Baptist Church<span>San Isidro</span></h1>
             <p>Whether you’re new to church or looking for a local congregation, we invite you to get to know us.</p>
+            <div className="sunday-schedule">
+              <strong>Sundays in San Isidro</strong>
+              <ul>
+                {sundaySchedule.map(({ gathering, start }) => (
+                  <li key={gathering}>
+                    {gathering} <time dateTime={start.time}>{start.label}</time>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <div className="actions"><a className="button" href="#visit">Plan a visit <span aria-hidden="true">↗</span></a><a className="text-link" href="#beliefs">Explore Baptist beliefs <span aria-hidden="true">↓</span></a></div>
           </div>
           <div className="hero-art">
@@ -98,12 +110,13 @@ export default function Home() {
           <table aria-labelledby="weekly-schedule">
             <thead><tr><th scope="col">Day</th><th scope="col">Gathering</th><th scope="col">Start time</th></tr></thead>
             <tbody>
-              <tr><td>Sunday</td><th scope="row">Sunday School</th><td><time dateTime="08:30">8:30 AM</time></td></tr>
-              <tr><td>Sunday</td><th scope="row">Worship Service</th><td><time dateTime="09:30">9:30 AM</time></td></tr>
-              <tr><td>Wednesday</td><th scope="row">Prayer Meeting</th><td><time dateTime="18:00">6:00 PM</time></td></tr>
-              <tr><td>Thursday</td><th scope="row">Saguin Prayer Meeting</th><td><time dateTime="18:00">6:00 PM</time></td></tr>
-              <tr><td>Friday</td><th scope="row">Outreach in San Jose</th><td>To be announced</td></tr>
-              <tr><td>Saturday</td><th scope="row">Outreach in San Isidro, Bacolor</th><td><time dateTime="09:00">9:00 AM</time></td></tr>
+              {weeklySchedule.map(({ day, gathering, start }) => (
+                <tr key={gathering}>
+                  <td>{day}</td>
+                  <th scope="row">{gathering}</th>
+                  <td>{start ? <time dateTime={start.time}>{start.label}</time> : "To be announced"}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
           <p className="sources">All times are Philippine time. Contact the church for outreach meeting points and schedule updates.</p>
