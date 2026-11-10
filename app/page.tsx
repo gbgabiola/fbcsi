@@ -5,6 +5,7 @@ import { church } from "../lib/church";
 export const metadata: Metadata = {
   description: church.description,
   alternates: { canonical: "/" },
+  verification: { google: "4iPbrwzcOoDsogi5HOXpAqc3cxxE01MUcBT5AMVkB0o" },
   openGraph: {
     type: "website",
     locale: "en_PH",
