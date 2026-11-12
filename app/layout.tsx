@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { church } from "../lib/church";
+import { church, churchContact } from "../lib/church";
+import { FooterIcon } from "./footer-icon";
 import { themeScript } from "./theme";
 import { ThemeSwitch } from "./theme-switch";
 import "./globals.css";
@@ -22,6 +23,48 @@ function Brand() {
       <Image src={church.logo} alt="" width={96} height={55} />
       <span>Fundamental Baptist Church<small>San Isidro</small></span>
     </Link>
+  );
+}
+
+function SiteFooter() {
+  const { phone, email, youtube, instagram } = churchContact;
+  const socials = [
+    { icon: "youtube", label: "YouTube", href: youtube },
+    { icon: "facebook", label: "Facebook", href: church.facebook },
+    { icon: "instagram", label: "Instagram", href: instagram },
+  ] as const;
+
+  return (
+    <footer className="footer-shell">
+      <div className="footer wrap">
+        <Brand />
+        <address className="footer-contact">
+          <a href={church.map}>
+            <FooterIcon name="address" />
+            <span>{church.street}<br />{church.locality}, {church.region}, Philippines</span>
+          </a>
+          {phone && (
+            <a href={`tel:${phone.dial}`}>
+              <FooterIcon name="phone" />
+              <span>{phone.label}</span>
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`}>
+              <FooterIcon name="email" />
+              <span>{email}</span>
+            </a>
+          )}
+        </address>
+        <nav className="footer-social" aria-label="Church social media">
+          {socials.map(({ icon, label, href }) => href && (
+            <a key={icon} href={href} aria-label={label} title={label}>
+              <FooterIcon name={icon} />
+            </a>
+          ))}
+        </nav>
+      </div>
+    </footer>
   );
 }
 
@@ -46,12 +89,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </div>
         </header>
         {children}
-        <footer className="footer-shell">
-          <div className="footer wrap">
-            <Brand />
-            <a href={church.facebook}>Facebook <span aria-hidden="true">↗</span></a>
-          </div>
-        </footer>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -11,6 +11,13 @@ export const church = {
   region: "Pampanga",
 } as const;
 
+export const churchContact: {
+  phone?: { label: string; dial: string };
+  email?: string;
+  youtube?: string;
+  instagram?: string;
+} = {};
+
 export const weeklySchedule = [
   { day: "Sunday", gathering: "Sunday School", start: { time: "08:30", label: "8:30 AM" } },
   { day: "Sunday", gathering: "Worship Service", start: { time: "09:30", label: "9:30 AM" } },
