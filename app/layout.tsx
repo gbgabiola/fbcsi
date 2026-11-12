@@ -37,10 +37,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="header wrap">
             <Brand />
             <nav className="main-nav" aria-label="Main navigation">
-              <Link className="nav-visit" href="/#visit">Plan a visit</Link>
-              <Link href="/#updates">Updates</Link>
-              <Link href="/#beliefs">Beliefs</Link>
-              <Link href="/#bible">Bible guide</Link>
+              <a className="nav-visit" href="/#visit">Plan a visit</a>
+              <a href="/#updates">Updates</a>
+              <a href="/#beliefs">Beliefs</a>
+              <a href="/#bible">Bible guide</a>
             </nav>
             <ThemeSwitch />
           </div>
