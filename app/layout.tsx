@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 function Brand() {
   return (
     <Link className="brand" href="/">
-      <Image src={church.logo} alt="" width={68} height={39} />
+      <Image src={church.logo} alt="" width={96} height={55} />
       <span>Fundamental Baptist Church<small>San Isidro</small></span>
     </Link>
   );
@@ -28,19 +28,23 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body>
         <a className="skip" href="#main">Skip to content</a>
-        <header className="header wrap">
-          <Brand />
-          <nav aria-label="Main navigation">
-            <Link href="/#beliefs">Beliefs</Link>
-            <Link href="/#bible">Bible guide</Link>
-            <Link href="/#updates">Updates</Link>
-            <Link className="nav-visit" href="/#visit">Plan a visit</Link>
-          </nav>
+        <header className="site-header">
+          <div className="header wrap">
+            <Brand />
+            <nav className="main-nav" aria-label="Main navigation">
+              <Link className="nav-visit" href="/#visit">Plan a visit</Link>
+              <Link href="/#updates">Updates</Link>
+              <Link href="/#beliefs">Beliefs</Link>
+              <Link href="/#bible">Bible guide</Link>
+            </nav>
+          </div>
         </header>
         {children}
-        <footer className="footer wrap">
-          <Brand />
-          <a href={church.facebook}>Facebook <span aria-hidden="true">↗</span></a>
+        <footer className="footer-shell">
+          <div className="footer wrap">
+            <Brand />
+            <a href={church.facebook}>Facebook <span aria-hidden="true">↗</span></a>
+          </div>
         </footer>
       </body>
     </html>
