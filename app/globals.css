@@ -35,17 +35,65 @@ button:disabled { opacity: .65; cursor: wait; }
 .sunday-schedule time { white-space: nowrap; font-weight: 700; }
 
 .bible-guide { background: var(--cream); }
-.testament-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.15rem; margin-top: 2rem; }
-.testament { border: 1px solid var(--line); background: var(--paper); padding: clamp(1.15rem, 3vw, 2rem); }
-.testament .eyebrow { color: var(--soft); letter-spacing: .09em; }
-.testament dl { margin: 1.3rem 0 0; }
-.testament dl div { border-top: 1px solid var(--line); padding-block: .65rem; }
-.testament dt { font-weight: 700; }
-.testament dd { margin: .15rem 0 0; color: var(--soft); }
+.bible-intro {
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border-radius: 5px;
+  color: var(--paper);
+  background: var(--green);
+}
+.bible-intro p { max-width: 44rem; margin: 1rem 0; }
+.bible-intro nav { display: flex; flex-wrap: wrap; gap: .65rem 1.2rem; }
+.bible-intro nav a { color: var(--gold); text-decoration: underline; }
+.testament {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.3fr);
+  gap: 1.25rem clamp(1.5rem, 5vw, 4rem);
+  padding-block: clamp(1.5rem, 5vw, 3rem);
+  border-bottom: 1px solid var(--line);
+}
+.testament h3, .reading-guide h3 { font-size: clamp(1.75rem, 3vw, 2.45rem); }
+.testament-facts { margin: .6rem 0; color: var(--soft); font-size: .9rem; font-weight: 650; }
+.book-groups { margin: 0; }
+.book-groups div {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, .55fr) minmax(0, 1.45fr);
+  gap: .75rem;
+  padding-block: .65rem;
+  border-top: 1px solid var(--line);
+}
+.book-groups dt { font-weight: 700; }
+.book-groups dd { margin: 0; color: var(--soft); }
+.book-groups dd span { display: block; color: var(--ink); font-weight: 600; }
 .reading-guide { margin-top: 2.5rem; }
-.reading-path { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem 1.5rem; padding-inline-start: 1.45rem; }
-.reading-path li { padding-inline-start: .2rem; }
+.reading-path {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem 1.75rem;
+  padding-inline-start: 1.4rem;
+}
+.reading-path li { padding-inline-start: .15rem; }
 .reading-path h4 { margin: .25rem 0; }
 .reading-path p { margin: 0; color: var(--soft); }
-@media(max-width:760px) { .testament-grid { grid-template-columns: 1fr; } .reading-path { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media(max-width:480px) { .reading-path { grid-template-columns: 1fr; } }
+.bible-translation { max-width: 46rem; margin-block: 2rem 1rem; }
+.bible-translation p { margin: .6rem 0 0; color: var(--soft); }
+.church-updates {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  gap: clamp(1.5rem, 5vw, 4rem);
+  align-items: start;
+}
+.church-updates .actions { display: flex; margin-top: 1.25rem; }
+.facebook-timeline {
+  min-height: 620px;
+  background: var(--cream);
+  border-radius: 5px;
+}
+.facebook-timeline iframe { display: block; max-width: 100%; border: 0; }
+
+@media (max-width: 760px) {
+  .testament, .church-updates { grid-template-columns: 1fr; }
+  .reading-path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .reading-path { grid-template-columns: 1fr; }
+}

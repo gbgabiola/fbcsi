@@ -33,6 +33,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <nav aria-label="Main navigation">
             <Link href="/#beliefs">Beliefs</Link>
             <Link href="/#bible">Bible guide</Link>
+            <Link href="/#updates">Updates</Link>
             <Link className="nav-visit" href="/#visit">Plan a visit</Link>
           </nav>
         </header>

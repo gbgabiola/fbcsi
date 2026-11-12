@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { church, weeklySchedule } from "../lib/church";
 import { BibleGuide } from "./bible-guide";
+import { ChurchUpdates } from "./church-updates";
 
 export const metadata: Metadata = {
   description: church.description,
@@ -116,6 +117,7 @@ export default function Home() {
         </div>
       </section>
       <BibleGuide />
+      <ChurchUpdates />
     </main>
   );
 }

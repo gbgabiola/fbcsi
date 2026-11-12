@@ -1,3 +1,32 @@
+const testaments = [
+  {
+    id: "old-testament",
+    title: "Old Testament",
+    count: 39,
+    language: "Mainly Hebrew, with some Aramaic",
+    story: "From creation and God’s promises to Abraham, the story follows Israel through deliverance from Egypt, kingship, exile, and return. The prophets call people back to God and hold out hope for the Messiah.",
+    books: [
+      { group: "Law", examples: "Genesis through Deuteronomy", purpose: "The beginnings of Israel, its covenant, and its laws." },
+      { group: "History", examples: "Joshua, Kings, Ezra, Nehemiah", purpose: "Life in the land, the monarchy, and rebuilding after exile." },
+      { group: "Poetry and wisdom", examples: "Job, Psalms, Proverbs", purpose: "Suffering, prayer, worship, and wise living." },
+      { group: "Prophets", examples: "Isaiah through Malachi", purpose: "Warnings, calls to faithfulness, and promises of restoration." },
+    ],
+  },
+  {
+    id: "new-testament",
+    title: "New Testament",
+    count: 27,
+    language: "Greek",
+    story: "Jesus announces God’s kingdom, teaches his disciples, dies, and rises from the dead. His followers carry the gospel from Jerusalem into new communities.",
+    books: [
+      { group: "Gospels", examples: "Matthew, Mark, Luke, John", purpose: "Four accounts of Jesus’ life and ministry." },
+      { group: "Early church", examples: "Acts", purpose: "The growth of the first churches and the spread of the gospel." },
+      { group: "Letters", examples: "Romans, Ephesians, James", purpose: "Christian teaching and guidance for life together." },
+      { group: "Revelation", examples: "Revelation", purpose: "Visions that encourage believers to remain faithful." },
+    ],
+  },
+] as const;
+
 const readingPath = [
   { passage: "John 1", topic: "Meet Jesus", description: "Notice what John says about who Jesus is and why he came." },
   { passage: "Genesis 12:1–9", topic: "Follow the promise", description: "Read what God promises Abram and how Abram responds." },
@@ -9,42 +38,38 @@ export function BibleGuide() {
   return (
     <section id="bible" className="section bible-guide" aria-labelledby="bible-title">
       <div className="wrap">
-        <div className="section-intro">
-          <p className="eyebrow"><span></span> 04 / Bible guide</p>
+        <header className="bible-intro">
           <h2 id="bible-title">Explore the Bible</h2>
-          <p>The Bible brings together histories, poems, prophecies, accounts of Jesus, and letters. The Protestant Bible contains 39 Old Testament books and 27 New Testament books.</p>
-        </div>
+          <p>Christians receive the Bible as Scripture inspired by God. The Protestant Bible brings together 66 books written in several forms, including history, poetry, prophecy, and letters.</p>
+          <nav aria-label="Bible guide sections">
+            <a href="#old-testament">Old Testament</a>
+            <a href="#new-testament">New Testament</a>
+            <a href="#start-reading">Start reading</a>
+          </nav>
+        </header>
 
-        <div className="testament-grid">
-          <article className="testament">
-            <p className="eyebrow">39 books · Mainly Hebrew, with some Aramaic</p>
-            <h3>Old Testament</h3>
-            <p>It begins with creation and traces God’s promises to Abraham, Israel’s deliverance from Egypt, and the nation’s life through kings, exile, and return. The prophets call people back to God and look ahead to the Messiah.</p>
-            <dl>
-              <div><dt>Law</dt><dd>Genesis through Deuteronomy introduce Israel’s beginnings, covenant, and commands.</dd></div>
-              <div><dt>History</dt><dd>Joshua and Kings trace Israel’s life in the land. Ezra and Nehemiah describe the return and rebuilding.</dd></div>
-              <div><dt>Poetry and wisdom</dt><dd>Psalms gives words for prayer and worship. Proverbs offers guidance for daily life.</dd></div>
-              <div><dt>Prophets</dt><dd>Isaiah through Malachi call for faithfulness and speak of judgment and hope.</dd></div>
+        {testaments.map(({ id, title, count, language, story, books }) => (
+          <article className="testament" id={id} key={id} aria-labelledby={id + "-title"}>
+            <div className="testament-intro">
+              <h3 id={id + "-title"}>{title}</h3>
+              <p className="testament-facts">{count} books · {language}</p>
+              <p>{story}</p>
+            </div>
+            <dl className="book-groups">
+              {books.map(({ group, examples, purpose }) => (
+                <div key={group}>
+                  <dt>{group}</dt>
+                  <dd><span>{examples}</span>{purpose}</dd>
+                </div>
+              ))}
             </dl>
           </article>
+        ))}
 
-          <article className="testament">
-            <p className="eyebrow">27 books · Written in Greek</p>
-            <h3>New Testament</h3>
-            <p>It tells of Jesus’ life, teaching, death, and resurrection, then follows the spread of the gospel as the first churches formed.</p>
-            <dl>
-              <div><dt>Gospels</dt><dd>Matthew, Mark, Luke, and John recount Jesus’ life and ministry.</dd></div>
-              <div><dt>Acts</dt><dd>Follow the early church from Jerusalem and see how the gospel reached new communities.</dd></div>
-              <div><dt>Letters</dt><dd>Paul and other writers address questions about faith, worship, and life together.</dd></div>
-              <div><dt>Revelation</dt><dd>Visions written to churches encourage faithfulness and point to Christ’s victory.</dd></div>
-            </dl>
-          </article>
-        </div>
-
-        <div className="reading-guide">
+        <div className="reading-guide" id="start-reading">
           <div className="section-intro">
             <h3>Start with four readings</h3>
-            <p>Read each passage in context. Ask who is speaking, what the passage says, and how you might respond.</p>
+            <p>Read each passage in context. Ask who is speaking, what kind of writing it is, and how you might respond.</p>
           </div>
           <ol className="reading-path">
             {readingPath.map(({ passage, topic, description }) => (
@@ -57,11 +82,12 @@ export function BibleGuide() {
           </ol>
         </div>
 
+        <div className="bible-translation">
+          <h3>Reading in translation</h3>
+          <p>The Bible’s original languages were Hebrew, Aramaic, and Greek. English readers have translations including the King James Version, published in 1611, and modern versions that draw on ancient manuscripts.</p>
+        </div>
         <p className="sources">
-          Sources for the overview include{" "}
-          <a href="https://www.christianbiblereference.org/summary.htm">Christian Bible Reference’s Summary and History of the Bible</a>
-          {" and "}
-          <a href="https://gbgabiola.github.io/the-bible/">Genesis Gabiola’s Bible overview</a>.
+          Adapted from <a href="https://www.christianbiblereference.org/summary.htm">Christian Bible Reference’s Summary and History of the Bible</a>.
         </p>
       </div>
     </section>
