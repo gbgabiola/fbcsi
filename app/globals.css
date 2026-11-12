@@ -76,22 +76,36 @@ button:disabled { opacity: .65; cursor: wait; }
 .reading-path p { margin: 0; color: var(--soft); }
 .bible-translation { max-width: 46rem; margin-block: 2rem 1rem; }
 .bible-translation p { margin: .6rem 0 0; color: var(--soft); }
-.church-updates {
+.facebook-posts {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
-  gap: clamp(1.5rem, 5vw, 4rem);
-  align-items: start;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
 }
-.church-updates .actions { display: flex; margin-top: 1.25rem; }
-.facebook-timeline {
-  min-height: 620px;
-  background: var(--cream);
-  border-radius: 5px;
+.facebook-posts article {
+  display: grid;
+  align-content: start;
+  gap: .65rem;
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--line);
 }
-.facebook-timeline iframe { display: block; max-width: 100%; border: 0; }
+.facebook-posts time { color: var(--soft); font-size: .85rem; }
+.facebook-posts h3 { font-size: 1.35rem; }
+.facebook-post-frame { min-height: 540px; background: var(--cream); }
+.facebook-post-frame iframe { display: block; max-width: 100%; border: 0; }
+
+@media (max-width: 980px) {
+  .facebook-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .facebook-posts { grid-template-columns: 1fr; }
+}
 
 @media (max-width: 760px) {
-  .testament, .church-updates { grid-template-columns: 1fr; }
+  .testament { grid-template-columns: 1fr; }
   .reading-path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 480px) {
