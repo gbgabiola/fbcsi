@@ -26,6 +26,30 @@ function Brand() {
   );
 }
 
+const footerLinks = [
+  {
+    heading: "Visit",
+    links: [
+      { label: "Plan a visit", href: "/#visit" },
+      { label: "Weekly schedule", href: "/#weekly-schedule" },
+    ],
+  },
+  {
+    heading: "About",
+    links: [
+      { label: "Beliefs", href: "/#beliefs" },
+      { label: "Church practices", href: "/#practices" },
+    ],
+  },
+  {
+    heading: "Explore",
+    links: [
+      { label: "Latest updates", href: "/#updates" },
+      { label: "Bible guide", href: "/#bible" },
+    ],
+  },
+];
+
 function SiteFooter() {
   const { phone, email, youtube, instagram } = churchContact;
   const socials = [
@@ -37,32 +61,49 @@ function SiteFooter() {
   return (
     <footer className="footer-shell">
       <div className="footer wrap">
-        <Brand />
-        <address className="footer-contact">
-          <a href={church.map}>
-            <FooterIcon name="address" />
-            <span>{church.village}<br />{church.locality}, Philippines</span>
-          </a>
-          {phone && (
-            <a href={`tel:${phone.dial}`}>
-              <FooterIcon name="phone" />
-              <span>{phone.label}</span>
+        <div className="footer-identity">
+          <Brand />
+          <address className="footer-contact">
+            <a href={church.map}>
+              <FooterIcon name="address" />
+              <span>{church.village}<br />{church.locality}, Philippines</span>
             </a>
-          )}
-          {email && (
-            <a href={`mailto:${email}`}>
-              <FooterIcon name="email" />
-              <span>{email}</span>
-            </a>
-          )}
-        </address>
-        <nav className="footer-social" aria-label="Church social media">
-          {socials.map(({ icon, label, href }) => href && (
-            <a key={icon} href={href} aria-label={label} title={label}>
-              <FooterIcon name={icon} />
-            </a>
+            {phone && (
+              <a href={`tel:${phone.dial}`}>
+                <FooterIcon name="phone" />
+                <span>{phone.label}</span>
+              </a>
+            )}
+            {email && (
+              <a href={`mailto:${email}`}>
+                <FooterIcon name="email" />
+                <span>{email}</span>
+              </a>
+            )}
+          </address>
+          <nav className="footer-social" aria-label="Church social media">
+            {socials.map(({ icon, label, href }) => href && (
+              <a key={icon} href={href} aria-label={label} title={label}>
+                <FooterIcon name={icon} />
+              </a>
+            ))}
+          </nav>
+        </div>
+        <nav className="footer-links" aria-label="Footer navigation">
+          {footerLinks.map(({ heading, links }) => (
+            <div key={heading}>
+              <h2>{heading}</h2>
+              <ul>
+                {links.map(({ label, href }) => (
+                  <li key={href}><a href={href}>{label}</a></li>
+                ))}
+              </ul>
+            </div>
           ))}
         </nav>
+      </div>
+      <div className="footer-bottom">
+        <p className="wrap"><small>© {new Date().getUTCFullYear()} {church.name} – San Isidro. All rights reserved.</small></p>
       </div>
     </footer>
   );
