@@ -86,9 +86,6 @@ export function BibleGuide() {
           <h3>Reading in translation</h3>
           <p>The Bible’s original languages were Hebrew, Aramaic, and Greek. English readers have translations including the King James Version, published in 1611, and modern versions that draw on ancient manuscripts.</p>
         </div>
-        <p className="sources">
-          Adapted from <a href="https://www.christianbiblereference.org/summary.htm">Christian Bible Reference’s Summary and History of the Bible</a>.
-        </p>
       </div>
     </section>
   );
