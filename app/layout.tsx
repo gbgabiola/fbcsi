@@ -3,6 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { church } from "../lib/church";
+import { themeScript } from "./theme";
+import { ThemeSwitch } from "./theme-switch";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +27,10 @@ function Brand() {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>
         <a className="skip" href="#main">Skip to content</a>
         <header className="site-header">
@@ -37,6 +42,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/#beliefs">Beliefs</Link>
               <Link href="/#bible">Bible guide</Link>
             </nav>
+            <ThemeSwitch />
           </div>
         </header>
         {children}

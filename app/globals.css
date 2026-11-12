@@ -5,6 +5,10 @@
   --paper: #fffcf7;
   --cream: #f8ede1;
   --plum: #552146;
+  --surface: #fff;
+  --accent: var(--plum);
+  --focus: #97600f;
+  --on-plum: #fffcf7;
   --deep-plum: #32142e;
   --gold: #e4a355;
   --pale-gold: #ffd49b;
@@ -13,21 +17,33 @@
   scroll-behavior: smooth;
 }
 
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #fff0f8;
+  --soft: #dac1d0;
+  --paper: #211620;
+  --cream: #332434;
+  --surface: #2d202b;
+  --line: #78576a;
+  --accent: var(--pale-gold);
+  --focus: var(--pale-gold);
+}
+
 * { box-sizing: border-box; }
 body { margin: 0; color: var(--ink); background: var(--paper); font: 1rem/1.65 system-ui, sans-serif; }
 a { color: inherit; text-underline-offset: .25em; }
 a:hover { text-decoration-thickness: 2px; }
-:focus-visible { outline: 3px solid #97600f; outline-offset: 4px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
 .hero :focus-visible, .bible-intro :focus-visible, .footer-shell :focus-visible { outline-color: var(--pale-gold); }
 .wrap { width: min(100% - 2.5rem, 72rem); margin-inline: auto; }
 .skip { position: absolute; inset: .5rem auto auto 1rem; z-index: 5; padding: .6rem 1rem; background: var(--paper); transform: translateY(-160%); }
 .skip:focus { transform: none; }
 
-.site-header { background: #fff; border-bottom: 1px solid var(--line); }
+.site-header { background: var(--surface); border-bottom: 1px solid var(--line); }
 .header, .footer, .brand, .main-nav, .actions { display: flex; align-items: center; }
 .header, .footer { justify-content: space-between; gap: 1.4rem; padding-block: .9rem; }
 .brand { gap: .65rem; text-decoration: none; font-family: var(--serif); font-weight: 700; line-height: 1.18; }
-.brand img { display: block; object-fit: contain; }
+.brand img { display: block; object-fit: contain; border-radius: .2rem; background: #fff; }
 .brand small {
   display: block;
   margin-top: .25rem;
@@ -38,14 +54,33 @@ a:hover { text-decoration-thickness: 2px; }
 .main-nav { gap: .35rem 1.25rem; flex-wrap: wrap; font-size: .9rem; font-weight: 650; }
 .main-nav a { text-decoration: none; padding-block: .5rem; }
 .main-nav a:hover { text-decoration: underline; }
-.main-nav .nav-visit { padding-inline: .8rem; border: 1px solid var(--line); border-radius: .35rem; color: var(--plum); }
+.main-nav .nav-visit { padding-inline: .8rem; border: 1px solid var(--line); border-radius: .35rem; color: var(--accent); }
+
+.header .main-nav { margin-inline-start: auto; }
+.theme-switch {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--accent);
+  font: 1.45rem/1 system-ui, sans-serif;
+  cursor: pointer;
+}
+.theme-switch:hover { background: var(--cream); }
+.theme-icon-sun, [data-theme="dark"] .theme-icon-moon { display: none; }
+[data-theme="dark"] .theme-icon-sun { display: block; }
 
 h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1.08; }
 h1 { font-size: clamp(2.65rem, 8vw, 6rem); letter-spacing: -.045em; }
 h2 { font-size: clamp(2.1rem, 5vw, 3.7rem); letter-spacing: -.035em; }
 h3 { font-size: 1.55rem; }
 .hero {
-  color: var(--paper);
+  color: var(--on-plum);
   text-align: center;
   background: radial-gradient(ellipse at 88% 0%, #78405b, transparent 55%),
     linear-gradient(145deg, var(--deep-plum), var(--plum));
@@ -120,12 +155,13 @@ h3 { font-size: 1.55rem; }
 .practices details:last-of-type { border-bottom: 1px solid var(--line); }
 .practices summary { cursor: pointer; padding: .85rem 0; font: 400 1.3rem/1.3 var(--serif); }
 .practices details p { margin: 0 0 1rem; }
-.footer-shell { color: var(--paper); background: var(--deep-plum); }
+.footer-shell { color: var(--on-plum); background: var(--deep-plum); }
 .footer { padding-block: 1.35rem; font-size: .9rem; }
-.footer .brand img { border-radius: .2rem; background: #fff; }
 
 @media (max-width: 760px) {
-  .header { align-items: flex-start; flex-direction: column; gap: .55rem; }
+  .header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .55rem .75rem; }
+  .header .main-nav { grid-column: 1 / -1; grid-row: 2; margin-inline-start: 0; }
+  .theme-switch { grid-column: 2; grid-row: 1; }
   .main-nav { gap: .25rem .85rem; }
   .visit-grid, .practice-grid, .beliefs { grid-template-columns: 1fr; }
   .footer { flex-wrap: wrap; }
@@ -144,7 +180,7 @@ h3 { font-size: 1.55rem; }
 .admin-panel h1 { font-size: clamp(2rem, 5vw, 3.65rem); }
 .admin-form { display: grid; gap: .6rem; margin-top: 1.5rem; }
 .admin-form label { font-weight: 650; }
-.admin-form input { min-width: 0; background: #fff; color: var(--ink); padding: .65rem; border: 1px solid var(--soft); border-radius: 4px; font: inherit; }
+.admin-form input { min-width: 0; background: var(--surface); color: var(--ink); padding: .65rem; border: 1px solid var(--soft); border-radius: 4px; font: inherit; }
 .admin-form p, .admin-form .actions { margin: 0; }
 .admin-form input + label { margin-top: .45rem; }
 button.button, .secondary-button { border: 1px solid transparent; cursor: pointer; font: inherit; font-weight: 700; }
@@ -157,7 +193,7 @@ button:disabled { opacity: .65; cursor: wait; }
 .bible-intro {
   padding: clamp(1.5rem, 5vw, 3.5rem);
   border-radius: 5px;
-  color: var(--paper);
+  color: var(--on-plum);
   background: var(--plum);
 }
 .bible-intro p { max-width: 44rem; margin: 1rem 0; }
