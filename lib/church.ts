@@ -6,6 +6,7 @@ export const church = {
   logo: "/fbcsi-logo.jpg",
   facebook: "https://www.facebook.com/fbcsi4Christ",
   map: "https://maps.app.goo.gl/7hfevm2YGM75h9829?g_st=ic",
+  village: "San Isidro Village",
   street: "3M35+RHW, Sampaguita Main Road",
   locality: "San Fernando",
   region: "Pampanga",
@@ -16,7 +17,10 @@ export const churchContact: {
   email?: string;
   youtube?: string;
   instagram?: string;
-} = {};
+} = {
+  phone: { label: "+63 992 620 2638", dial: "+639926202638" },
+  email: "fbcsi1982@gmail.com",
+};
 
 export const weeklySchedule = [
   { day: "Sunday", gathering: "Sunday School", start: { time: "08:30", label: "8:30 AM" } },

@@ -41,7 +41,7 @@ function SiteFooter() {
         <address className="footer-contact">
           <a href={church.map}>
             <FooterIcon name="address" />
-            <span>{church.street}<br />{church.locality}, {church.region}, Philippines</span>
+            <span>{church.village}<br />{church.locality}, Philippines</span>
           </a>
           {phone && (
             <a href={`tel:${phone.dial}`}>
