@@ -7,3 +7,6 @@ next-env.d.ts
 supabase/.temp/
 .vercel/
 .vercel
+.open-next/
+.wrangler/
+.dev.vars*
