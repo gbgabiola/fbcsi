@@ -5,7 +5,5 @@ node_modules/
 next-env.d.ts
 *.tsbuildinfo
 supabase/.temp/
-
-.open-next/
-.wrangler/
-.dev.vars*
+.vercel/
+.vercel

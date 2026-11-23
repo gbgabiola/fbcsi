@@ -3,15 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": ">=22"
+    "node": "24.x"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "build:worker": "opennextjs-cloudflare build",
-    "preview:worker": "opennextjs-cloudflare preview",
-    "deploy:worker": "opennextjs-cloudflare deploy",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test tests/*.test.mjs"
   },
@@ -22,17 +19,10 @@
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
-  "overrides": {
-    "@opennextjs/cloudflare": {
-      "glob": "14.0.6"
-    }
-  },
   "devDependencies": {
-    "@opennextjs/cloudflare": "1.20.18",
     "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "typescript": "5.9.3",
-    "wrangler": "4.166.0"
+    "typescript": "5.9.3"
   }
 }
