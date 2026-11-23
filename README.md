@@ -38,41 +38,42 @@ npm test
 npm start
 ```
 
-### Cloudflare Workers Free
+### Vercel deployment
 
-OpenNext packages the Next.js application for Workers. Run these commands from Ubuntu WSL with Node.js 22 or newer.
+Use the gbgabiola Vercel Hobby account and connect the GitHub repository gbgabiola/fbcsi. The project uses Node.js 24 and the Next.js preset. The build command in vercel.json runs type checking, a production build, and the administrator integration test before the deployment can succeed.
+
+1. Sign in to Vercel with GitHub, select Add New → Project, and import gbgabiola/fbcsi. If prompted, authorize the Vercel GitHub App for this repository.
+2. Use the project name fbcsi and production branch main. Accept the repository's build settings.
+3. Add SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY to the Production environment. Add TURNSTILE_SITE_KEY when Supabase CAPTCHA protection is enabled.
+4. Set SITE_URL to the assigned production HTTPS address. When it is absent, the app uses Vercel's VERCEL_PROJECT_PRODUCTION_URL, with the existing Render address as a fallback for other hosts.
+5. Deploy and confirm the assigned address under Settings → Domains. The address fbcsi.vercel.app depends on availability.
+6. Authorize the final hostname in the existing Cloudflare Turnstile widget. Update the Supabase Authentication Site URL and any configured redirect URLs to the production address.
+7. Verify the homepage, logo, favicon, sitemap, theme switch, email-code sign-in, administrator access, and sign-out. Check that administrator responses are private and uncached.
+8. Pushes to main deploy to production. Pull requests receive preview deployments through the Vercel GitHub integration. Configure a separate Supabase test project for authenticated previews.
+9. After the live checks pass, update Google Search Console and retire the Render deployment.
+
+Production environment values belong in Vercel settings. Local credentials and the .vercel project link are ignored by Git.
+
+### Versions and releases
+
+The package.json version follows Semantic Versioning. Git tags use the same version with a v prefix. GitHub Releases record source milestones, while Vercel Deployments record the commits actually deployed.
+
+The first recorded release is v1.0.0. From a clean, up-to-date main checkout, prepare the next release using:
 
 ```sh
-npm ci
+git pull --ff-only
 npm run typecheck
-npm run build:worker
+npm run build
 npm test
-npx wrangler deploy --dry-run
-npm run preview:worker
+npm version patch -m "Release %s"
+git push origin main --follow-tags
 ```
 
-The local Workers preview runs on port 8787. The logo is served directly as a static image. Hashed JavaScript and CSS assets receive immutable cache headers. The application uses no R2 bucket or paid Images binding. Administrator routes remain private and uncached.
+Use npm version minor for added features and npm version major for incompatible changes. npm version updates package.json and package-lock.json, commits them, and creates an annotated tag.
 
-To publish to a Cloudflare account:
+The Release workflow runs on version tags. It verifies that the tag matches the stable package version and belongs to main, runs the checks, and publishes a GitHub Release with generated notes. A release is published only after those checks pass. Rerunning a successful workflow preserves its existing release.
 
-1. Run `npx wrangler login --device` and approve the request in the browser. Run `npx wrangler whoami` to confirm the account. Use the Workers Free plan.
-2. Create the `fbcsi` Worker by running `npm run deploy:worker`. Record its assigned `https://fbcsi.<account-subdomain>.workers.dev` URL.
-3. In Workers & Pages → fbcsi → Settings → Variables and Secrets, add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. Add `TURNSTILE_SITE_KEY` if the existing Supabase CAPTCHA setting is enabled. These must be runtime variables or secrets, even when using Workers Builds.
-4. Set `SITE_URL` in the build environment to the final HTTPS address before running `npm run build:worker`. This updates the sitemap, robots, metadata, and structured data. For CLI builds, set it in the shell or an ignored `.env.production.local`.
-5. In the existing Turnstile widget, authorize the new hostname. In Supabase Authentication → URL Configuration, set Site URL to the final address and allow any redirect URLs used by the project. Keep the email-code template and existing administrator assignment.
-6. Rebuild and deploy. Check the homepage, logo, favicon, sitemap, dark mode, administrator code delivery, code verification, and sign-out. Verify that `/admin` redirects signed-out visitors and that `/sign-in` and `/admin` responses contain `Cache-Control: private, no-store`.
-7. For automatic deployment, connect this GitHub repository in Cloudflare Workers Builds. Use `npm run build:worker` as the build command and `npm run deploy:worker` as the deploy command. Set `SITE_URL` for builds and the runtime variables from step 3 on the Worker.
-8. After the final domain and authentication checks pass, update the domain's DNS to the Worker and retire the Render service. Confirm the new canonical URL in Google Search Console.
-
-The deployment dry run reports compressed upload size. Workers Free permits 3 MiB per Worker and has request and CPU quotas. Test the deployed application on the Free plan before changing DNS.
-
-The `glob` override in `package.json` selects a patched build-tool dependency while the adapter's declared range remains on version 13. Recheck the override when upgrading OpenNext.
-
-### Existing Node.js deployment
-
-Deploy to a Next.js-capable Node.js host and set both Supabase environment variables there. Keep admin responses uncached at any reverse proxy.
-
-For a no-cost deployment, use a Render **Free Web Service** with the repository's default branch. Set the build command to `npm ci && npm run build` and the start command to `npm start -- --hostname 0.0.0.0`. Use its included `.onrender.com` address and configure the Supabase environment variables in the service settings. The free service can take about a minute to wake after 15 minutes of inactivity.
+The Vercel GitHub integration owns deployment. A GitHub Release does not by itself prove that a production deployment succeeded. Confirm the matching commit in Vercel Deployments before announcing a live version. To roll back the website, promote a previous known-good Vercel deployment, then fix main and publish a new patch version.
 
 The integration test starts the production build with a local Supabase HTTP fixture. It checks signed-out and non-admin access, successful admin access, and session clearing when the assignment lookup is unavailable. It does not send email.
 
@@ -80,14 +81,14 @@ Keep Supabase Auth rate limits enabled. Where the host supports it, apply an add
 
 ### Optional bot protection for administrator sign-in
 
-Supabase Auth rate limits apply regardless of hosting provider. To add a managed bot check on Render Free, configure Cloudflare Turnstile:
+Supabase Auth rate limits apply regardless of hosting provider. To add a managed bot check, configure Cloudflare Turnstile:
 
-1. Create a Turnstile widget in Cloudflare and authorize the deployed hostname `fbcsi.onrender.com`. Use a separate test widget for local development.
-2. Add the widget's public site key as `TURNSTILE_SITE_KEY` in Render and redeploy. Check that the widget loads on `/sign-in`.
+1. Create a Turnstile widget in Cloudflare and authorize the final deployed hostname. Use a separate test widget for local development.
+2. Add the widget's public site key as `TURNSTILE_SITE_KEY` in Vercel and redeploy. Check that the widget loads on `/sign-in`.
 3. In Supabase Authentication, open **Bot and Abuse Protection**, enable CAPTCHA, choose **Turnstile**, and save the widget's secret in Supabase.
-4. Verify a fresh code request, code entry, and sign-out in production. If activation fails, disable CAPTCHA in Supabase first, then remove `TURNSTILE_SITE_KEY` from Render and redeploy.
+4. Verify a fresh code request, code entry, and sign-out in production. If activation fails, disable CAPTCHA in Supabase first, then remove `TURNSTILE_SITE_KEY` from Vercel and redeploy.
 
-The public pages never load the widget. Supabase verifies the challenge tokens and keeps its rate limits enabled. Keep the Turnstile secret out of Render, the repository, and client code.
+The public pages never load the widget. Supabase verifies the challenge tokens and keeps its rate limits enabled. Keep the Turnstile secret out of hosting environment variables, the repository, and client code.
 
 ## Content to confirm with the church
 
