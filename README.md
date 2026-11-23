@@ -38,6 +38,38 @@ npm test
 npm start
 ```
 
+### Cloudflare Workers Free
+
+OpenNext packages the Next.js application for Workers. Run these commands from Ubuntu WSL with Node.js 22 or newer.
+
+```sh
+npm ci
+npm run typecheck
+npm run build:worker
+npm test
+npx wrangler deploy --dry-run
+npm run preview:worker
+```
+
+The local Workers preview runs on port 8787. The logo is served directly as a static image. Hashed JavaScript and CSS assets receive immutable cache headers. The application uses no R2 bucket or paid Images binding. Administrator routes remain private and uncached.
+
+To publish to a Cloudflare account:
+
+1. Run `npx wrangler login --device` and approve the request in the browser. Run `npx wrangler whoami` to confirm the account. Use the Workers Free plan.
+2. Create the `fbcsi` Worker by running `npm run deploy:worker`. Record its assigned `https://fbcsi.<account-subdomain>.workers.dev` URL.
+3. In Workers & Pages → fbcsi → Settings → Variables and Secrets, add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`. Add `TURNSTILE_SITE_KEY` if the existing Supabase CAPTCHA setting is enabled. These must be runtime variables or secrets, even when using Workers Builds.
+4. Set `SITE_URL` in the build environment to the final HTTPS address before running `npm run build:worker`. This updates the sitemap, robots, metadata, and structured data. For CLI builds, set it in the shell or an ignored `.env.production.local`.
+5. In the existing Turnstile widget, authorize the new hostname. In Supabase Authentication → URL Configuration, set Site URL to the final address and allow any redirect URLs used by the project. Keep the email-code template and existing administrator assignment.
+6. Rebuild and deploy. Check the homepage, logo, favicon, sitemap, dark mode, administrator code delivery, code verification, and sign-out. Verify that `/admin` redirects signed-out visitors and that `/sign-in` and `/admin` responses contain `Cache-Control: private, no-store`.
+7. For automatic deployment, connect this GitHub repository in Cloudflare Workers Builds. Use `npm run build:worker` as the build command and `npm run deploy:worker` as the deploy command. Set `SITE_URL` for builds and the runtime variables from step 3 on the Worker.
+8. After the final domain and authentication checks pass, update the domain's DNS to the Worker and retire the Render service. Confirm the new canonical URL in Google Search Console.
+
+The deployment dry run reports compressed upload size. Workers Free permits 3 MiB per Worker and has request and CPU quotas. Test the deployed application on the Free plan before changing DNS.
+
+The `glob` override in `package.json` selects a patched build-tool dependency while the adapter's declared range remains on version 13. Recheck the override when upgrading OpenNext.
+
+### Existing Node.js deployment
+
 Deploy to a Next.js-capable Node.js host and set both Supabase environment variables there. Keep admin responses uncached at any reverse proxy.
 
 For a no-cost deployment, use a Render **Free Web Service** with the repository's default branch. Set the build command to `npm ci && npm run build` and the start command to `npm start -- --hostname 0.0.0.0`. Use its included `.onrender.com` address and configure the Supabase environment variables in the service settings. The free service can take about a minute to wake after 15 minutes of inactivity.
