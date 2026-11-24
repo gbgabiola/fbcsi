@@ -54,6 +54,20 @@ Use the gbgabiola Vercel Hobby account and connect the GitHub repository gbgabio
 
 Production environment values belong in Vercel settings. Local credentials and the .vercel project link are ignored by Git.
 
+### Branching and review
+
+Use short-lived feature, fix, or documentation branches from main. Open a pull request, review its Vercel preview when applicable, and merge after the Checks workflow passes. Main is the production branch. A permanent develop branch is unnecessary for this project's current size.
+
+For example:
+
+```sh
+git switch main
+git pull --ff-only
+git switch -c feat/update-service-schedule
+```
+
+Commit each meaningful change with a concise description. Push the branch and open a pull request into main. Squash merge changes that form one feature, or preserve separate commits when each is independently useful. Delete the feature branch after merging. Release tags must point to commits already merged into main.
+
 ### Versions and releases
 
 The package.json version follows Semantic Versioning. Git tags use the same version with a v prefix. GitHub Releases record source milestones, while Vercel Deployments record the commits actually deployed.
