@@ -45,12 +45,12 @@ Use the gbgabiola Vercel Hobby account and connect the GitHub repository gbgabio
 1. Sign in to Vercel with GitHub, select Add New → Project, and import gbgabiola/fbcsi. If prompted, authorize the Vercel GitHub App for this repository.
 2. Use the project name fbcsi and production branch main. Accept the repository's build settings.
 3. Add SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY to the Production environment. Add TURNSTILE_SITE_KEY when Supabase CAPTCHA protection is enabled.
-4. Set SITE_URL to the assigned production HTTPS address. When it is absent, the app uses Vercel's VERCEL_PROJECT_PRODUCTION_URL, with the existing Render address as a fallback for other hosts.
+4. Set SITE_URL to the assigned production HTTPS address. When it is absent, the app uses Vercel's VERCEL_PROJECT_PRODUCTION_URL, with https://fbcsi.vercel.app as the fallback for other hosts.
 5. Deploy and confirm the assigned address under Settings → Domains. The address fbcsi.vercel.app depends on availability.
 6. Authorize the final hostname in the existing Cloudflare Turnstile widget. Update the Supabase Authentication Site URL and any configured redirect URLs to the production address.
 7. Verify the homepage, logo, favicon, sitemap, theme switch, email-code sign-in, administrator access, and sign-out. Check that administrator responses are private and uncached.
 8. Pushes to main deploy to production. Pull requests receive preview deployments through the Vercel GitHub integration. Configure a separate Supabase test project for authenticated previews.
-9. After the live checks pass, update Google Search Console and retire the Render deployment.
+9. Use https://fbcsi.vercel.app as the canonical website address and submit its sitemap to Google Search Console.
 
 Production environment values belong in Vercel settings. Local credentials and the .vercel project link are ignored by Git.
 
