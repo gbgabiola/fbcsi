@@ -65,22 +65,51 @@ a:hover { text-decoration-thickness: 2px; }
 
 .header .main-nav { margin-inline-start: auto; }
 .theme-switch {
-  display: grid;
+  --segment: 2rem;
+  --thumb: 1.875rem;
+  --track-padding: .25rem;
+  position: relative;
+  isolation: isolate;
+  display: inline-grid;
+  grid-template-columns: repeat(2, var(--segment));
   place-items: center;
-  flex: 0 0 auto;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
+  flex: none;
+  min-height: 2.75rem;
+  padding: var(--track-padding);
   border: 1px solid var(--line);
-  border-radius: 50%;
+  border-radius: 999px;
   background: var(--surface);
-  color: var(--accent);
-  font: 1.45rem/1 system-ui, sans-serif;
+  color: var(--soft);
   cursor: pointer;
 }
-.theme-switch:hover { background: var(--cream); }
-.theme-icon-sun, [data-theme="dark"] .theme-icon-moon { display: none; }
-[data-theme="dark"] .theme-icon-sun { display: block; }
+.theme-switch:hover { border-color: var(--accent); }
+.theme-switch::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: calc(var(--track-padding) + (var(--segment) - var(--thumb)) / 2);
+  width: var(--thumb);
+  height: var(--thumb);
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+  transform: translateY(-50%);
+  transition: transform 160ms ease;
+}
+[data-theme="dark"] .theme-switch::before { transform: translate(var(--segment), -50%); }
+.theme-switch svg { width: 1.125rem; height: 1.125rem; }
+[data-theme="light"] .theme-icon-sun, [data-theme="dark"] .theme-icon-moon { color: var(--surface); }
+@media (max-width: 640px) {
+  .theme-switch { --segment: 1.5rem; --thumb: 1.375rem; }
+  .theme-switch svg { width: 1rem; height: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-switch::before { transition: none; }
+}
+@media (forced-colors: active) {
+  .theme-switch::before { forced-color-adjust: none; background: Highlight; }
+  [data-theme="light"] .theme-icon-sun, [data-theme="dark"] .theme-icon-moon { forced-color-adjust: none; color: HighlightText; }
+}
 
 h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1.08; }
 h1 { font-size: clamp(2.65rem, 8vw, 6rem); letter-spacing: -.045em; }
