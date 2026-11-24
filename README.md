@@ -1,5 +1,7 @@
 # Fundamental Baptist Church · San Isidro
 
+[![README views](https://hits.sh/github.com/gbgabiola/fbcsi.svg?label=README%20views&color=552146&labelColor=32142e)](https://hits.sh/github.com/gbgabiola/fbcsi/)
+
 Church website built with Next.js, TypeScript, and Supabase. Vercel hosts the site at [fbcsi.vercel.app](https://fbcsi.vercel.app/).
 
 ## Development
